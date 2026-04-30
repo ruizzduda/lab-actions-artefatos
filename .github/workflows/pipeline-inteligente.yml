@@ -1,4 +1,5 @@
-name: Pipeline Inteligente
+yaml
+name: Pipeline Inteligente com Artefatos
 
 on:
   workflow_dispatch:
@@ -18,16 +19,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Gerar relatórios
+      - name: Simular build e gerar relatórios
         run: |
           mkdir saida_build
-          echo "Relatorio 1" > saida_build/relatorio1.txt
-          echo "Relatorio 2" > saida_build/relatorio2.txt
+          echo "Relatório de testes 1 gerado com sucesso" > saida_build/relatorio1.txt
+          echo "Relatório de testes 2 gerado com sucesso" > saida_build/relatorio2.txt
 
-      - name: Upload Artefato
+      - name: Upload dos artefatos
         uses: actions/upload-artifact@v4
         with:
           name: meus-relatorios-oficiais
@@ -38,12 +39,13 @@ jobs:
     needs: job_gerador
 
     steps:
-      - name: Download Artefato
+      - name: Download dos artefatos
         uses: actions/download-artifact@v4
         with:
           name: meus-relatorios-oficiais
 
-      - name: Verificar arquivos
-        run: |
-          ls -R
-          cat relatorio1.txt
+      - name: Listar arquivos
+        run: ls -R
+
+      - name: Mostrar conteúdo do relatório
+        run: cat relatorio1.txt
