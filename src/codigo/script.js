@@ -1,1 +1,1 @@
-console.log("teste");
+qualquer coisa console.log("teste");

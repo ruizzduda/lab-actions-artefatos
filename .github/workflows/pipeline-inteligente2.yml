@@ -1,0 +1,32 @@
+name: Aprendendo Artefatos
+
+on: 
+  push:
+  workflow_dispatch:
+
+jobs:
+  gerador: 
+    name: Produzir Arquivo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Criar relatório de teste
+        run: echo "Sucesso! Artefato gerado em $(date)" > relatorio.txt
+
+      - name: Salvar Artefato
+        uses: actions/upload-artifact@v4 
+        with:
+          name: meu-pacote 
+          path: relatorio.txt 
+
+  consumidor: 
+    name: Ler Arquivo
+    runs-on: ubuntu-latest
+    needs: [gerador] 
+    steps:
+      - name: Recuperar Artefato
+        uses: actions/download-artifact@v4 
+        with:
+          name: meu-pacote 
+
+      - name: Exibir Conteúdo
+        run: cat relatorio.txt
